@@ -1,0 +1,23 @@
+import cv2
+import numpy as np
+
+image = cv2.imread("sample.jpg")
+
+if image is None:
+    print("Error: Image not found! Keep sample.jpg in the same folder.")
+else:
+    rows, cols, ch = image.shape
+
+    pts1 = np.float32([[50, 50], [200, 50], [50, 200]])
+    pts2 = np.float32([[10, 100], [200, 50], [100, 250]])
+
+    matrix = cv2.getAffineTransform(pts1, pts2)
+    transformed_image = cv2.warpAffine(image, matrix, (cols, rows))
+
+    cv2.imshow("Original Image", image)
+    cv2.imshow("Affine Transformed Image", transformed_image)
+
+    cv2.imwrite("affine_transformed.jpg", transformed_image)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
